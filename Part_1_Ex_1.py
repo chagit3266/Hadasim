@@ -3,7 +3,7 @@ import aspose.words as aw
 i=1
 with open("log.txt", "r") as file:
     count=1
-    new_file= open(f"logs/log{i}.txt","wt")#אם לא קיים פותח קובץ אם קיים מוסיף
+    new_file= open(f"logs/log{i}.txt","wt")#אם לא קיים פותח קובץ אם קיים מחליף
     for line in file:
       new_file.write(line)
       count+=1
