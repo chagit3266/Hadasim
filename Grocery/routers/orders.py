@@ -24,6 +24,7 @@ def create_order(request: schemas.OrderIn,
            db_goods.goods_id=goods.goods_id
            db_goods.order_id=db_item.id
            db_goods.quantity=goods.quantity
+           db_goods.user_id=request.user_id
            db.add(db_goods)
    db.commit() 
 
@@ -38,5 +39,20 @@ def change_status(id: UUID, status: str,
         db.commit()
         db.refresh(order)
     return order
+
+@router.get('/{user_id}',response_model=schemas.OrderIn)
+def get_by_id(user_id:UUID,
+             db: Session = Depends(database.get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    orders=[]
+    if user:
+        if user.company_name == 'grocer' or user.company_name =='מכולת':
+           # אם זה מנהל
+           orders = db.query(models.Order).all()
+        else:
+           # הזמנות לפי ספק
+           orders = db.query(models.Order).filter(models.Order.user_id == user_id).all()
+
+    return orders
 
 

@@ -39,6 +39,14 @@ class GoodsInOrder(Base): # מוצר בהזמנה
     order = relationship("Order", back_populates="goods_in_orders")#הזמנה שבו המוצר 
     goods = relationship("Goods", back_populates="goods_in_orders")#המוצר
 
+class GoodsInStore(Base): # מוצר בחנות 
+    __tablename__ = 'GoodsInStore'
+
+    id = Column(UNIQUEIDENTIFIER, primary_key=True, default=uuid.uuid4,unique=True)
+    min_amount=Column(Integer)
+    quantity = Column(Integer)
+
+
 class Order(Base):# הזמנה
     __tablename__ = 'Orders'
 
